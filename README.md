@@ -1,7 +1,7 @@
 # PointArena Solution: Molmo2-8B + Segmentation Hint
 
-A reproducible competition solution for PointArena point-grounding evaluation, built on top of the original PointArena project.  
-This repo contains the modified evaluator (`molmo_evaluator_withseg.py`) and result artifacts.
+A solution for PointArena point-grounding evaluation, built on top of the original PointArena project.  
+This repo contains the modified evaluator (`molmo_evaluator_withseg.py`) and result.
 
 ## Table of Contents
 - [1. Overview](#1-overview)
@@ -11,9 +11,6 @@ This repo contains the modified evaluator (`molmo_evaluator_withseg.py`) and res
 - [5. Method](#5-method)
 - [6. Evaluation Protocol](#6-evaluation-protocol)
 - [7. Results](#7-results)
-- [8. Output Files](#8-output-files)
-- [9. Troubleshooting](#9-troubleshooting)
-- [10. Acknowledgement](#10-acknowledgement)
 
 ## 1. Overview
 This solution modifies the Molmo evaluator to improve pointing robustness by adding a segmentation-based visual hint image and stronger coordinate parsing logic.
@@ -182,24 +179,4 @@ From `static_results/results_molmo_allenai_Molmo2-8B_simple_prompt.json` in this
 Note:
 - Reproduced score may vary slightly across hardware, dependency versions, precision/quantization mode, and model checkpoints.
 
-## 8. Output Files
-- `static_results/results_molmo_allenai_Molmo2-8B_simple_prompt.json`
-  - stores aggregate metrics and per-image outcome
-- `point_on_mask/*.jpg`
-  - visualization overlays of predicted points and masks
 
-## 9. Troubleshooting
-- `Model directory does not exist: models/Molmo2-8B`
-  - Ensure local model weights are downloaded to `SAVED_MODELS_DIR/Molmo2-8B`
-- `Error loading data.json` / missing `images` or `masks`
-  - Run from PointArena root and verify data paths
-- CUDA OOM on single GPU
-  - Use smaller batch behavior (default is per-sample), free VRAM, or rely on built-in 4-bit fallback path
-- Very slow inference
-  - Confirm GPU is used (`torch.cuda.is_available() == True`)
-
-## 10. Acknowledgement
-- Base project: PointArena (official repository and benchmark framework)
-- This repository provides only the solution-specific evaluator and reproduction notes.
-
-If you use this solution in reports or derivative work, please also cite the original PointArena project and paper.
