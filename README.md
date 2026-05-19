@@ -7,7 +7,7 @@ This repo contains the modified evaluator (`molmo_evaluator_withseg.py`) and res
 - [1. Overview](#1-overview)
 - [2. Repository Scope](#2-repository-scope)
 - [3. Environment](#3-environment)
-- [4. Reproduction (From Original PointArena Clone)](#4-reproduction-from-original-pointarena-clone)
+- [4. Reproduction](#4-reproduction-from-original-pointarena-clone)
 - [5. Method](#5-method)
 - [6. Results](#6-results)
 
@@ -42,7 +42,7 @@ Not included:
 ### Step 1. Clone original PointArena
 
 ```bash
-git clone <https://github.com/pointarena/pointarena>
+git clone https://github.com/pointarena/pointarena
 cd pointarena
 ```
 
@@ -59,21 +59,21 @@ Follow the original PointArena instructions to ensure the following are availabl
 Clone this solution repository anywhere local:
 
 ```bash
-git clone <YOUR_SOLUTION_REPO_URL>
+git clone https://github.com/kaslanakiana/pointarena-solution
 ```
 
 ### Step 4. Apply the evaluator patch
-Copy solution evaluator into your PointArena root (rename as needed):
+Copy solution evaluator into your PointArena root:
 
 ```bash
-cp <YOUR_SOLUTION_REPO_PATH>/molmo_evaluator_withseg.py ./molmo_evaluator_withseg.py
+cp <SOLUTION_REPO_PATH>/molmo_evaluator_withseg.py ./molmo_evaluator_withseg.py
 ```
 
 ### Step 5. Install dependencies
 Inside original `pointarena` root:
 
 ```bash
-pip install -r <YOUR_SOLUTION_REPO_PATH>/requirements.txt
+pip install -r <SOLUTION_REPO_PATH>/requirements.txt
 ```
 
 ### Step 6. Configure environment variables (optional but recommended)
@@ -99,21 +99,7 @@ For each sample, evaluator builds a two-image input:
 The second image acts as a detection/structure hint for point grounding.
 
 ### 5.2 Category-aware behavior
-- `counting`: allows multiple points and enforces predicted point count == ground-truth count
-- non-counting categories: keeps only one point
-- `steerable`: draws provided reference point(s) on image before inference (`pixmo_metadata.csv`)
-
-### 5.3 Robust coordinate extraction
-Prediction parsing uses multi-stage fallback:
-1. Parse `<points coords="...">` style outputs
-2. Parse bracketed coordinate arrays with regex
-3. Parse JSON-like structures
-4. Last-resort numeric extraction
-
-### 5.4 Success criterion
-A sample is successful when:
-- predicted point(s) are inside the target binary mask (`is_point_in_mask`), and
-- for counting tasks, predicted count matches expected count
+For steerable tasks, we explicitly draw the provided reference point annotations onto the image before inference, so the model can better perceive spatial relations.
 
 ## 6. Results
 From `static_results/results_molmo_allenai_Molmo2-8B_simple_prompt.json` in this repo:
