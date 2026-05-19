@@ -1,6 +1,6 @@
 # PointArena Solution: Molmo2-8B + Segmentation Hint
 
-A solution for PointArena point-grounding evaluation, built on top of the original PointArena project.  
+A solution for PointArena point-grounding evaluation.  
 This repo contains the modified evaluator (`molmo_evaluator_withseg.py`) and result.
 
 ## Table of Contents
@@ -13,12 +13,7 @@ This repo contains the modified evaluator (`molmo_evaluator_withseg.py`) and res
 - [7. Results](#7-results)
 
 ## 1. Overview
-This solution modifies the Molmo evaluator to improve pointing robustness by adding a segmentation-based visual hint image and stronger coordinate parsing logic.
-
-Core idea:
-- Input to Molmo includes both the original image and a Mask2Former-generated segmentation visualization.
-- The model output is parsed with multi-stage fallback rules for point extraction.
-- Success is determined by mask hit (and exact count matching for counting tasks).
+This solution is built around Molmo2's multi-image capability: we feed both the original image and an additional segmentation-based visual hint image into the model to improve point grounding reliability.
 
 ## 2. Repository Scope
 This repository is a **solution patch repo**, not a full standalone benchmark package.
@@ -40,31 +35,15 @@ Not included:
 - CUDA-enabled PyTorch environment for efficient inference
 - Linux/Windows supported
 
-### 3.2 Python Dependencies
-Install with:
-
-```bash
-pip install -r requirements.txt
-```
-
-`requirements.txt` includes key packages such as:
-- `torch==2.6.0+cu118`
-- `transformers==4.57.1`
-- `accelerate==0.27.2`
-- `pillow`, `numpy`, `python-dotenv`, etc.
-
-### 3.3 Hardware (Recommended)
+### 3.2 Hardware
 - GPU: >= 24 GB VRAM recommended for Molmo2-8B full precision
-- CPU RAM: >= 32 GB
-- Multi-GPU is supported by this evaluator (`device_map="auto"`)
-- If single-GPU OOM occurs, code includes a 4-bit quantization fallback path
 
-## 4. Reproduction (From Original PointArena Clone)
+## 4. Reproduction
 
 ### Step 1. Clone original PointArena
 
 ```bash
-git clone <POINTARENA_ORIGINAL_REPO_URL>
+git clone <[POINTARENA_ORIGINAL_REPO_URL](https://github.com/pointarena/pointarena)>
 cd pointarena
 ```
 
