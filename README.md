@@ -9,8 +9,7 @@ This repo contains the modified evaluator (`molmo_evaluator_withseg.py`) and res
 - [3. Environment](#3-environment)
 - [4. Reproduction (From Original PointArena Clone)](#4-reproduction-from-original-pointarena-clone)
 - [5. Method](#5-method)
-- [6. Evaluation Protocol](#6-evaluation-protocol)
-- [7. Results](#7-results)
+- [6. Results](#6-results)
 
 ## 1. Overview
 This solution is built around Molmo2's multi-image capability: we feed both the original image and an additional segmentation-based visual hint image into the model to improve point grounding reliability.
@@ -43,7 +42,7 @@ Not included:
 ### Step 1. Clone original PointArena
 
 ```bash
-git clone <[POINTARENA_ORIGINAL_REPO_URL](https://github.com/pointarena/pointarena)>
+git clone <https://github.com/pointarena/pointarena>
 cd pointarena
 ```
 
@@ -53,7 +52,7 @@ Follow the original PointArena instructions to ensure the following are availabl
 - `images/`
 - `masks/`
 - `pixmo_metadata.csv`
-- `models/Molmo2-8B` (if using local Molmo weights)
+- `models/Molmo2-8B` 
 - `mask2former-swin-large-coco-panoptic/`
 
 ### Step 3. Clone this solution repo
@@ -70,12 +69,6 @@ Copy solution evaluator into your PointArena root (rename as needed):
 cp <YOUR_SOLUTION_REPO_PATH>/molmo_evaluator_withseg.py ./molmo_evaluator_withseg.py
 ```
 
-Windows PowerShell example:
-
-```powershell
-Copy-Item "<YOUR_SOLUTION_REPO_PATH>\molmo_evaluator_withseg.py" ".\molmo_evaluator_withseg.py"
-```
-
 ### Step 5. Install dependencies
 Inside original `pointarena` root:
 
@@ -90,29 +83,11 @@ If using local models, set:
 export SAVED_MODELS_DIR=./models
 ```
 
-PowerShell:
-
-```powershell
-$env:SAVED_MODELS_DIR = ".\\models"
-```
-
 ### Step 7. Run evaluation
 
 ```bash
-python molmo_evaluator_withseg.py --model Molmo2-8B --type molmo --no-resume
+python molmo_evaluator_withseg.py --model Molmo2-8B --type molmo
 ```
-
-Resume from existing partial results:
-
-```bash
-python molmo_evaluator_withseg.py --model Molmo2-8B --type molmo --resume
-```
-
-### Step 8. Check outputs
-- Main result JSON:
-  - `static_results/results_molmo_allenai_Molmo2-8B_simple_prompt.json`
-- Point overlay visualizations:
-  - `point_on_mask/`
 
 ## 5. Method
 
@@ -140,14 +115,7 @@ A sample is successful when:
 - predicted point(s) are inside the target binary mask (`is_point_in_mask`), and
 - for counting tasks, predicted count matches expected count
 
-## 6. Evaluation Protocol
-- Dataset iterator reads from `data.json`
-- Image file is resolved from `images/<category>/<image_filename>`
-- Mask file is loaded from `masks/<mask_filename>`
-- Intermediate results are auto-saved every 100 processed samples
-- Final report includes `total`, `success`, `failure`, and per-sample details
-
-## 7. Results
+## 6. Results
 From `static_results/results_molmo_allenai_Molmo2-8B_simple_prompt.json` in this repo:
 
 - Total: `982`
